@@ -1,0 +1,19 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  supplier: "Supplier"
+  suppliers: "Suppliers"
+  new_supplier: "New Supplier"
+  editing_supplier: "Editing Supplier"
+  back_to_suppliers_list: "Back to Suppliers List"
+  
+  purchase_order: "Purchase Order"
+  purchase_orders: "Purchase Orders"
+  new_purchase_order: "New Purchase Order"
+  editing_purchase_order: "Editing Purchase Order"
+  back_to_purchase_orders_list: "Back to Purchase Orders List"
+  
+  total_backorder_cost_for_supplier: "Total Backorder Cost for %{supplier}"
+  
+  details: "Details"

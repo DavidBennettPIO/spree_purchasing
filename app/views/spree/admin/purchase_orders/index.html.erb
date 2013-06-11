@@ -1,0 +1,92 @@
+<% content_for :page_title do %>
+  <%= t(:backorders) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <li>
+    <%= button_link_to t(:new_purchase_order), new_object_url, :icon => 'icon-plus' %>
+  </li>
+<% end %>
+<% content_for :sidebar_title do %>
+  <%= t(:purchase_orders) %>
+<% end %>
+<% content_for :sidebar do %>
+  <% unless @purchase_orders.any? %>
+    <div class="no-objects-found">
+      <%= t(:no_results) %>
+    </div>
+  <% else %>
+    <table class="index">
+      <colgroup>
+        <col>
+        <col>
+        <col style="width: 12%">
+      </colgroup>
+      <thead>
+        <tr data-hook="rate_header">
+          <th><%= t(:supplier) %></th>
+          <th><%= t(:number) %></th>
+          <th class="actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @purchase_orders.limit(100).each do |purchase_order|%>
+        <tr id="<%= spree_dom_id purchase_order %>" data-hook="rate_row" class="<%= cycle('odd', 'even')%>">
+          <td><%=purchase_order.supplier.name %></td>
+          <td>#<%=purchase_order.invoice_number %></td>
+          <td class="actions">
+            <%= link_to_edit supplier, :no_text => true %>
+            <%= link_to_delete supplier, :no_text => true %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>
+
+<% Spree::Supplier.all.each do |supplier| %>
+  <div data-hook="admin_backorders" class="row">
+    <fieldset class="no-border-bottom">
+      <legend align="center"><%= supplier.name %> <%= t(:backorders) %></legend>
+        <table class="index">
+          <colgroup>
+            <col width="80">
+            <col width="80">
+            <col>
+            <col width="74">
+            <col width="44">
+          </colgroup>
+          <thead>
+            <tr data-hook="backorder_header">
+              <th><%= t(:Add) %></th>
+              <th><%= t(:order) %></th>
+              <th><%= t(:sku) %></th>
+              <th><%= t(:item_description) %></th>
+              <th><%= t(:cost) %></th>
+            </tr>
+          </thead>
+          <tbody class="align-center">
+            <% backorder_cost = 0 %>
+            <% supplier.inventory_units.order('id desc').limit(100).each do |inventory_unit|%>
+            <tr id="<%= spree_dom_id inventory_unit %>" data-hook="rate_row" class="<%= cycle('odd', 'even')%>">
+              <td><%= link_to inventory_unit.order.number, admin_order_path(inventory_unit.order) %></td>
+              <td><%= inventory_unit.variant.product.sku %></td>
+              <td><%= inventory_unit.variant.product.name %> (<%= inventory_unit.variant.options_text %>)</td>
+              <td><%= inventory_unit.variant.cost_price %></td>
+              <% backorder_cost += inventory_unit.variant.cost_price %>
+              <td><%= check_box_tag [:supplier, supplier.id, inventory_unit.variant.id] %></td>
+            </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr data-hook="backorder_footer">
+              <td colspan="3"><%= t(:total_backorder_cost_for_supplier, :supplier => supplier.name) %>: <%= backorder_cost %></td>
+              <td>0</td>
+              <td>ADD</td>
+            </tr>
+          </foot>>
+        </table>
+    </fieldset>
+  </div>
+<% end %>

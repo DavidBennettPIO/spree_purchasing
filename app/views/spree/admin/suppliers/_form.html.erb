@@ -1,0 +1,27 @@
+<div data-hook="admin_supplier_form_fields" class="alpha twelve columns">
+  <div class="alpha six columns">
+    <%= f.field_container :name do %>
+      <%= f.label :name, t(:name) %> <span class="required">*</span><br />
+      <%= f.text_field :name, :class => 'fullwidth' %>
+      <%= f.error_message_on :name %>
+    <% end %>
+    <%= f.field_container :phone do %>
+      <%= f.label :phone, t(:phone) %><br />
+      <%= f.text_field :phone, :class => 'fullwidth' %>
+      <%= f.error_message_on :phone %>
+    <% end %>
+    
+  </div>
+  <div class="omega six columns">
+    <%= f.field_container :email do %>
+      <%= f.label :email, t(:email) %><br />
+      <%= f.text_field :email, :class => 'fullwidth' %>
+      <%= f.error_message_on :email %>
+    <% end %>
+    <%= f.field_container :website do %>
+      <%= f.label :website, t(:website) %><br />
+      <%= f.text_field :website, :class => 'fullwidth' %>
+      <%= f.error_message_on :website %>
+    <% end %>
+  </div>
+</div>
