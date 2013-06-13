@@ -1,0 +1,14 @@
+/*
+ *= require admin/spree_core
+ *= require_self
+*/
+
+.icon-file-alt:before {
+    content: "\f0f6";
+}
+
+fieldset[data-hook="admin_backorders"] tfoot .backorder_cost{
+	color: black;
+	opacity: 0.2;
+	font-size: 0.7em
+}

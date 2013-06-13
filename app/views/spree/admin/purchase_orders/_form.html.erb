@@ -1,0 +1,37 @@
+<div data-hook="admin_supplier_form_fields" class="alpha sixteen columns">
+  <div class="alpha six columns">
+    <%= f.field_container :supplier do %>
+      <%= f.label t(:supplier) %><br />
+      <%= f.collection_select :supplier_id, Spree::Supplier.all, :id, :name, { :include_blank => true }, { :class => 'fullwidth select2' } %>
+    <% end %>
+    <%= f.field_container :tracking_number do %>
+      <%= f.label :tracking_number, t(:tracking_number) %><br />
+      <%= f.text_field :tracking_number, :class => 'fullwidth' %>
+      <%= f.error_message_on :tracking_number %>
+    <% end %>
+  </div>
+  <div class="omega six columns">
+    <%= f.field_container :invoice_number do %>
+      <%= f.label :invoice_number, t(:invoice_number) %><br />
+      <%= f.text_field :invoice_number, :class => 'fullwidth' %>
+      <%= f.error_message_on :invoice_number %>
+    <% end %>
+    <%= f.field_container :notes do %>
+      <%= f.label :notes, t(:notes) %><br />
+      <%= f.text_field :notes, :class => 'fullwidth' %>
+      <%= f.error_message_on :notes %>
+    <% end %>
+  </div>
+  <div class="omega four columns">
+    <%= f.field_container :ordered_on do %>
+      <%= f.label :ordered_on, t(:ordered_on) %><br />
+      <%= f.text_field :ordered_on, :class => 'datepicker fullwidth' %>
+      <%= f.error_message_on :ordered_on %>
+    <% end %>
+    <%= f.field_container :arrives_on do %>
+      <%= f.label :arrives_on, t(:arrives_on) %><br />
+      <%= f.text_field :arrives_on, :class => 'datepicker fullwidth' %>
+      <%= f.error_message_on :arrives_on %>
+    <% end %>
+  </div>
+</div>

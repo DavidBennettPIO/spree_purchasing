@@ -5,11 +5,10 @@ class CreateSpreePurchaseOrders < ActiveRecord::Migration
       t.decimal    :total,          :precision => 8, :scale => 2, :default => 0.0, :null => false
       t.date       :ordered_on
       t.date       :arrives_on
-      t.boolean    :received,       :default => false, :null => false
+      t.string     :state
       t.string     :invoice_number
       t.string     :tracking_number
       t.string     :notes
-      t.string     :state
 
       t.timestamps
     end
