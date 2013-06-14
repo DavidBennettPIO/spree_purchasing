@@ -19,3 +19,8 @@ en:
   confirm_purchase_order_from_backorders: "Are you sure you want to create a Purchase Order from the selected Backorders"
   
   details: "Details"
+  
+  purchase_order_line: "Purchase Order Line"
+  purchase_order_lines: "Purchase Order Lines"
+  new_purchase_order_line: "New Purchase Order Line"
+  remove_purchase_order_line: "Remove Purchase Order Line"

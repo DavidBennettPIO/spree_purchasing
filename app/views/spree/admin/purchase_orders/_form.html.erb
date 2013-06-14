@@ -34,4 +34,37 @@
       <%= f.error_message_on :arrives_on %>
     <% end %>
   </div>
+  <fieldset id="purchase_order_lines">
+    <legend align="center"><%= t(:purchase_order_lines) %></legend>
+    <table class="index align-center">
+      <colgroup>
+        <col width="140">
+        <col>
+        <col width="80">
+        <col width="80">
+        <col width="38">
+      </colgroup>
+      <thead>
+        <tr>
+          <th><%= t(:sku) %></th>
+          <th><%= t(:item_description) %></th>
+          <th><%= t(:quantity) %></th>
+          <th><%= t(:cost_price) %></th>
+          <th class="actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= f.fields_for :purchase_order_lines do |f2| %>
+          <%= render :partial => 'purchase_order_line_fields', :locals => { :purchase_order_line => f2.object, :f => f2 } %>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"><%= t(:total_purchase_order_cost) %>:</td>
+          <td><span class="purchase_order_cost">0</span></td>
+          <td class="actions"></td>
+        </tr>
+      </foot>
+    </table>
+  </fieldset>
 </div>

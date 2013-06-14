@@ -1,7 +1,7 @@
 module Spree
   class PurchaseOrderLine < ActiveRecord::Base
     
-    attr_accessible :line_item, :purchase_order, :price, :quantity, :variant
+    attr_accessible :purchase_order, :order, :variant, :order_id, :variant_id, :price, :quantity
     
     belongs_to :purchase_order
     

@@ -1,0 +1,26 @@
+<tr data-hook="rate_row" class="<%= cycle('odd', 'even')%>">
+  <td><%= purchase_order_line.variant.product.sku %></td>
+  <td><%= purchase_order_line.variant.product.name %> (<%= purchase_order_line.variant.options_text %>)</td>
+  <td><%= f.text_field :quantity, :class => 'fullwidth' %></td>
+  <td><%= f.text_field :price, :class => 'fullwidth' %></td>
+  <td class="actions">
+    <%= f.hidden_field :variant_id %>
+    <%= f.hidden_field :order_id %>
+    <%=
+    
+      link_to_with_icon(
+        'icon-trash',
+        t(:remove_purchase_order_line),
+        '#',
+        {
+          :class => 'delete-resource',
+          :no_text => true,
+          :data => {
+            :confirm => t(:are_you_sure)
+          }
+        }
+      )
+      
+    %>
+  </td>
+</tr>

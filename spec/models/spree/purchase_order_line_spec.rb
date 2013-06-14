@@ -93,7 +93,7 @@ describe Spree::PurchaseOrderLine do
         purchase_order_line.receive
       end
       
-      it "should restock one backordered InventoryUnit (lots of IU's)" do
+      it "should restock three backordered InventoryUnit (lots of IU's)" do
         purchase_order_line.variant.count_on_hand = -5
         purchase_order_line.variant.save!
         variant.inventory_units.stub(:with_state).and_return(Array.new(5, inventory_unit))
