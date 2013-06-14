@@ -14,6 +14,9 @@ en:
   editing_purchase_order: "Editing Purchase Order"
   back_to_purchase_orders_list: "Back to Purchase Orders List"
   
+  tracking_number_short: "Number"
+  purchase_order_ordered_on: "Ordered On"
+  
   total_backorder_cost_for_supplier: "Total Backorder Cost for %{supplier}"
   create_purchase_order_from_backorders: "Create Purchase Order from Backorders"
   confirm_purchase_order_from_backorders: "Are you sure you want to create a Purchase Order from the selected Backorders"

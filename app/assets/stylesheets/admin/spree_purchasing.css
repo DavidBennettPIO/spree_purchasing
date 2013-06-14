@@ -7,22 +7,22 @@
     content: "\f0f6";
 }
 
-fieldset[data-hook="supplier_backorders"] tbody td:nth-child(3){
+#supplier_backorders tbody td:nth-child(2){
 	text-align: left;
 }
 
-fieldset[data-hook="supplier_backorders"] tfoot td:first-child, fieldset#purchase_order_lines tfoot td:first-child{
+#supplier_backorders tfoot td:first-child, #purchase_order_lines tfoot td:first-child{
 	text-align: right;
 }
 
-fieldset[data-hook="supplier_backorders"] tfoot .backorder_cost{
+#supplier_backorders tfoot .backorder_cost{
 	color: black;
 	opacity: 0.3;
 	font-size: 0.75em;
 	display: block;
 }
 
-fieldset.supplier_backorders .actions, fieldset#purchase_orders .actions, fieldset#purchase_order_lines .actions {
+#supplier_backorders .actions, #purchase_orders .actions, #purchase_order_lines .actions {
 	padding-right: 0;
 }
 

@@ -7,22 +7,60 @@
     <%= button_link_to t(:new_purchase_order), new_object_url, :icon => 'icon-plus' %>
   </li>
 <% end %>
-<div class="alpha ten columns">
+<div id="purchase_orders" class="alpha eight columns">
+  <fieldset id="purchase_orders" class="no-border-bottom">
+    <legend align="center"><%= t(:purchase_orders) %></legend>
+    <% unless @purchase_orders.any? %>
+      <div class="no-objects-found">
+        <%= t(:no_results) %>
+      </div>
+    <% else %>
+      <table class="index align-center">
+        <colgroup>
+          <col>
+          <col width="90">
+          <col width="90">
+          <col width="38">
+        </colgroup>
+        <thead>
+          <tr data-hook="rate_header">
+            <th><%= t(:supplier) %></th>
+            <th><%= t(:status) %></th>
+            <th><%= t(:purchase_order_ordered_on) %></th>
+            <th class="actions"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @purchase_orders.limit(100).each do |purchase_order|%>
+          <tr id="<%= spree_dom_id purchase_order %>" data-hook="rate_row" class="<%= cycle('odd', 'even')%>">
+            <td><%=purchase_order.supplier.name %></td>
+            <td><%=purchase_order.state %></td>
+            <td><%=purchase_order.ordered_on %></td>
+            <td class="actions">
+              <%= link_to_edit purchase_order, :no_text => true %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    <% end %>
+  </fieldset>
+</div>
+<div id="supplier_backorders" class="omega eight columns">
 <% Spree::Supplier.all.each do |supplier| %>
-  <fieldset data-hook="supplier_backorders" class="no-border-bottom">
+  <fieldset class="no-border-bottom">
     <legend align="center"><%= supplier.name %> <%= t(:backorders) %></legend>
       <table class="index align-center">
         <colgroup>
-          <col width="80">
           <col>
           <col>
-          <col width="44">
+          <col width="30">
           <col width="44">
           <col width="38">
         </colgroup>
         <thead>
           <tr>
-            <th><%= t(:order) %></th>
             <th><%= t(:sku) %></th>
             <th><%= t(:item_description) %></th>
             <th colspan="2"><%= t(:amount) %></th>
@@ -33,7 +71,7 @@
           <% backorder_cost = 0 %>
           <% supplier.posible_purchase_order_lines.order('order_id desc').limit(100).each do |inventory_unit|%>
           <tr id="<%= spree_dom_id inventory_unit %>" data-hook="rate_row" class="<%= cycle('odd', 'even')%>">
-            <td><%= link_to inventory_unit.order.number, admin_order_path(inventory_unit.order) %></td>
+            <% 'TODO Make a cool overlay showing the order details' + inventory_unit.order.number %>
             <td><strong><%= inventory_unit.variant.product.sku %></strong></td>
             <td><%= inventory_unit.variant.product.name %> (<%= inventory_unit.variant.options_text %>)</td>
             <td><%= inventory_unit.quantity %></td>
@@ -60,7 +98,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3"><%= t(:total_backorder_cost_for_supplier, :supplier => supplier.name) %>:</td>
+            <td colspan="2"><%= t(:total_backorder_cost_for_supplier, :supplier => supplier.name) %>:</td>
             <td colspan="2"><span class="purchase_order_cost">0</span> <span class="backorder_cost">/ <%= backorder_cost %></span></td>
             <td class="actions"><%=
             
@@ -84,40 +122,4 @@
       </table>
   </fieldset>
 <% end %>
-</div>
-<div class="omega six columns">
-  <fieldset data-hook="purchase_orders" class="no-border-bottom">
-    <legend align="center"><%= t(:purchase_orders) %></legend>
-    <% unless @purchase_orders.any? %>
-      <div class="no-objects-found">
-        <%= t(:no_results) %>
-      </div>
-    <% else %>
-      <table class="index align-center">
-        <colgroup>
-          <col>
-          <col>
-          <col width="38">
-        </colgroup>
-        <thead>
-          <tr data-hook="rate_header">
-            <th><%= t(:supplier) %></th>
-            <th><%= t(:status) %></th>
-            <th class="actions"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @purchase_orders.limit(100).each do |purchase_order|%>
-          <tr id="<%= spree_dom_id purchase_order %>" data-hook="rate_row" class="<%= cycle('odd', 'even')%>">
-            <td><%=purchase_order.supplier.name %></td>
-            <td><%=purchase_order.state %></td>
-            <td class="actions">
-              <%= link_to_edit purchase_order, :no_text => true %>
-            </td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <% end %>
-  </fieldset>
 </div>
