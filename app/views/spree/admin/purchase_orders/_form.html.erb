@@ -4,10 +4,10 @@
       <%= f.label t(:supplier) %><br />
       <%= f.collection_select :supplier_id, Spree::Supplier.all, :id, :name, { :include_blank => true }, { :class => 'fullwidth select2' } %>
     <% end %>
-    <%= f.field_container :tracking_number do %>
-      <%= f.label :tracking_number, t(:tracking_number) %><br />
-      <%= f.text_field :tracking_number, :class => 'fullwidth' %>
-      <%= f.error_message_on :tracking_number %>
+    <%= f.field_container :tracking do %>
+      <%= f.label :tracking, t(:tracking) %><br />
+      <%= f.text_field :tracking, :class => 'fullwidth' %>
+      <%= f.error_message_on :tracking %>
     <% end %>
   </div>
   <div class="omega six columns">

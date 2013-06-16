@@ -16,6 +16,8 @@ require 'spree/core/testing_support/controller_requests'
 require 'spree/core/testing_support/authorization_helpers'
 require 'spree/core/url_helpers'
 
+require 'spree_purchasing/factories'
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 

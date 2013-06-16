@@ -4,17 +4,22 @@ module Spree
     has_many :products
     has_many :variants, :through => :products
     
+    has_many :purchase_orders
+    has_many :purchase_order_lines, :through => :purchase_orders
+    has_many :inventory_units, :through => :purchase_order_lines
+    
     attr_accessible :email, :name, :phone, :website
     
     # DateTime.new(2013,5,20)
     
-    def inventory_units
-      Spree::InventoryUnit.backordered.where(:variant_id => self.variants.pluck(:id))
-    end
     
     def posible_purchase_order_lines
-      Spree::InventoryUnit.backordered.select('order_id, variant_id, count(*) as quantity').where(:variant_id => variant_ids).group(:order_id, :variant_id)
+      # Spree::InventoryUnit.backordered.select('order_id, variant_id, count(*) as quantity').where(:variant_id => variant_ids).group(:order_id, :variant_id)
+      Spree::InventoryUnit.backordered.select('order_id, variant_id, count(*) as quantity').where('id NOT IN (?) AND variant_id IN (?)', inventory_unit_ids, variant_ids).group(:order_id, :variant_id)
+      #Spree::InventoryUnit.backordered.select('order_id, variant_id, count(*) as quantity').where('id NOT IN (NULL)').group(:order_id, :variant_id)
     end
+    
+    
     
     private
     
@@ -27,7 +32,8 @@ module Spree
       end
       
       def inventory_unit_ids
-        Spree::InventoryUnit.select(:id).backordered.where(:variant_id => variant_ids).map{|iu|iu.id}
+        ids = self.inventory_units.pluck(:id)
+        (ids.size == 0)? [0] : ids
       end
     
   end

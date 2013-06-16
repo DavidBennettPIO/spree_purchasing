@@ -1,16 +1,20 @@
 class CreateSpreePurchaseOrders < ActiveRecord::Migration
   def change
     create_table :spree_purchase_orders do |t|
-      t.references :supplier,       :null => false
-      t.decimal    :total,          :precision => 8, :scale => 2, :default => 0.0, :null => false
+      # indexed
+      t.references :supplier,   :null => false
+      t.integer    :state,      :null => false, :default => 0, :limit => 2
+      # fixed-length
+      t.decimal    :total,      :null => false, :default => 0.0, :precision => 8, :scale => 2
       t.date       :ordered_on
       t.date       :arrives_on
-      t.string     :state
-      t.string     :invoice_number
-      t.string     :tracking_number
-      t.string     :notes
-
       t.timestamps
+      # var-length
+      t.string     :number
+      t.string     :invoice_number
+      t.string     :tracking
+      t.string     :notes
     end
+    add_index  :spree_purchase_orders, [:state], :name => 'index_purchase_orders_on_state'
   end
 end

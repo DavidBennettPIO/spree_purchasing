@@ -2,22 +2,15 @@ module Spree
   module Admin
     class PurchaseOrdersController < ResourceController
       
-      def build_resource
-        purchase_order = PurchaseOrder.new(:ordered_on => Date.today)
-        unless params[:purchase_order].nil?
-
-          #purchase_order.supplier_id = params[:purchase_order][:supplier_id]
-          
-          purchase_order.assign_attributes(params[:purchase_order])
-          
-          #render :text => params[:purchase_order][:purchase_order_lines].to_s
-          #params[:purchase_order][:purchase_order_lines].values.each do |pol|
-          #  purchase_order.purchase_order_lines << PurchaseOrderLine.new(pol)
-          #end
-          #purchase_order
-        end
-        
-        purchase_order
+      new_action.before :assign_attrs
+      
+      def assign_attrs
+        @object.ordered_on = Date.today
+        @object.attributes = params[:purchase_order]
+      end
+      
+      def location_after_save
+        object_url @object
       end
       
     end
