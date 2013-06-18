@@ -22,7 +22,36 @@
 	display: block;
 }
 
-#supplier_backorders .actions, #purchase_orders .actions, #purchase_order_lines .actions {
+#supplier_backorders .actions, #purchase_orders .actions, #purchase_order_lines .actions, #receive_purchase_order_lines .actions {
 	padding-right: 0;
 }
 
+#receive_purchase_order_lines a.receive{
+	background: none;
+	border-width: 0;
+	font-size: 180%;
+    height: 24px;
+    line-height: 0.9em;
+    padding: 0;
+    width: 27px;
+}
+
+#receive_purchase_order_lines input.quantity{
+	width: 30px;
+	display: inline-block;
+	padding: 2px;
+	vertical-align: top;
+	text-align: center;
+}
+
+.state.ordered:before {
+    background-color: #FF9300;
+}
+
+.state.receiving:before {
+    background-color: #FF9300;
+}
+
+.state.received:before {
+    background-color: #9FC820;
+}

@@ -28,6 +28,16 @@ describe Spree::PurchaseOrderLine do
 
   end
   
+  context "order_line" do
+    
+    it "should transition to ordered" do
+      purchase_order_line.variant.should_not_receive(:on_hand=)
+      purchase_order_line.order_line
+      purchase_order_line.should be_ordered
+    end
+
+  end
+  
   context "receive" do
     
     before :each do
@@ -54,17 +64,17 @@ describe Spree::PurchaseOrderLine do
         purchase_order_line.should be_received
       end
       
-      it "should be partially_received when recieving less then correct ammount" do
+      it "should be receiving when recieving less then correct ammount" do
         purchase_order_line.variant.should_receive(:on_hand=)
         purchase_order_line.receive purchase_order_line.quantity - 1
-        purchase_order_line.should be_partially_received
+        purchase_order_line.should be_receiving
         purchase_order_line.can_receive?.should == true
       end
       
       it "should be received when recieving less then correct ammount and then the remainder" do
         purchase_order_line.variant.should_receive(:on_hand=).exactly(2).times
         purchase_order_line.receive purchase_order_line.quantity - 1
-        purchase_order_line.should be_partially_received
+        purchase_order_line.should be_receiving
         purchase_order_line.receive 1
         purchase_order_line.should be_received
       end

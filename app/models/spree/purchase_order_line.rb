@@ -8,31 +8,40 @@ module Spree
     belongs_to :variant
     belongs_to :order # optinal so we know who this was for
     
+    # These are only for hinting, there might not be any.
     has_many  :inventory_units
+    
+    before_save :link_inventory_units
     
     state_machine :initial => :pending do
 
-      state :pending,             :value => 0
-      state :ordered,             :value => 1
-      state :partially_received,  :value => 2
-      state :received,            :value => 3
-      state :canceled,            :value => 15
+      state :pending,     :value => 0
+      state :ordered,     :value => 1
+      #partially_received
+      state :receiving,   :value => 2
+      state :received,    :value => 3
+      state :canceled,    :value => 15
+      
+      event :order_line do
+        transition :pending => :ordered
+      end
 
       event :receive do
-        transition [:ordered, :partially_received] => :received, :if => :fully_received?
-        transition [:ordered, :partially_received] => :partially_received
+        transition [:ordered, :receiving] => :received, :if => :fully_received?
+        transition [:ordered, :receiving] => :receiving
       end
+
       event :cancel do
         transition :received => :ordered
       end
-      
+
       after_transition :to => :received, :do => :receive_purchase_order
-  
+
       after_transition :on => :cancel, :do => :unstock_variant
-      
+
     end
     
-    # overrides the event - and not so safe for variant?
+    # overrides the event
     def receive quantity_to_receive
       
       return unless self.can_receive?
@@ -51,9 +60,22 @@ module Spree
       super
       
     end
+    
+    def as_json
+      {
+        :id => self.id,
+        :state => self.state_name,
+        :quantity => self.quantity,
+        :quantity_received => self.quantity_received
+      }
+    end
 
     
     private
+    
+      def fully_received?
+        self.quantity_received >= self.quantity
+      end
     
       # recive the backordered_units we know about first - not so safe for variant?
       def receive_quietly backordered_units
@@ -83,13 +105,26 @@ module Spree
         self.variant.save
   
       end
-    
-      def fully_received?
-        self.quantity_received >= self.quantity
-      end
       
       def unstock_variant
         # TODO
+      end
+    
+      def link_inventory_units
+        
+        # Reset inventory_units
+        self.inventory_units.each do |inventory_unit|
+          inventory_unit.purchase_order_line_id = nil
+          inventory_unit.save
+        end
+        
+        # Add inventory_units, preferably from the order we added them from    
+        if self.order.nil?
+          assoc = Spree::InventoryUnit.where(:variant_id => self.variant.id, :purchase_order_line_id => nil).order(:id).limit(self.quantity)
+        else
+          assoc = Spree::InventoryUnit.where(:variant_id => self.variant.id, :purchase_order_line_id => nil).order('order_id = ? desc, id asc', self.order.id).limit(self.quantity)
+        end
+        
       end
       
       def receive_purchase_order

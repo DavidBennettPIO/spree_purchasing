@@ -18,7 +18,7 @@
       <table class="index align-center">
         <colgroup>
           <col>
-          <col width="90">
+          <col width="100">
           <col width="90">
         </colgroup>
         <thead>
@@ -32,7 +32,7 @@
           <% @purchase_orders.order('ordered_on desc, id desc').limit(100).each do |purchase_order|%>
           <tr id="<%= spree_dom_id purchase_order %>" data-hook="rate_row" data-href="<%= spree.admin_purchase_order_path purchase_order %>" class="<%= cycle('odd', 'even')%>">
             <td><%=purchase_order.supplier.name %></td>
-            <td><%=purchase_order.state_name %></td>
+            <td><span class="state <%= purchase_order.state_name %>"><%= purchase_order.state_name %></span></td>
             <td><%=purchase_order.ordered_on %></td>
           </tr>
           <% end %>

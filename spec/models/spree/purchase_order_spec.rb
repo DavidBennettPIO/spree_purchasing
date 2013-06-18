@@ -37,6 +37,7 @@ describe Spree::PurchaseOrder do
         purchase_order.purchase_order_lines.stub(:all).and_return([purchase_order_line])
         purchase_order.order!
         purchase_order.should be_ordered
+        purchase_order.purchase_order_lines.all.first.should be_ordered
       end
   
     end
@@ -64,16 +65,16 @@ describe Spree::PurchaseOrder do
         purchase_order.should be_received
       end
       
-      it "should be partially_received with mixed lines" do
+      it "should be receiving with mixed lines" do
         purchase_order.purchase_order_lines.stub(:all).and_return([purchase_order_line, purchase_order_line_received])
         purchase_order.receive!
-        purchase_order.should be_partially_received
+        purchase_order.should be_receiving
       end
       
-      it "should change from partially_received to received" do
+      it "should change from receiving to received" do
         purchase_order.purchase_order_lines.stub(:all).and_return([purchase_order_line, purchase_order_line_received])
         purchase_order.receive!
-        purchase_order.should be_partially_received
+        purchase_order.should be_receiving
         purchase_order.purchase_order_lines.stub(:all).and_return([purchase_order_line_received, purchase_order_line_received])
         purchase_order.receive!
         purchase_order.should be_received

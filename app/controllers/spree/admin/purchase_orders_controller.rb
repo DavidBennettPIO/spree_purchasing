@@ -13,6 +13,11 @@ module Spree
         object_url @object
       end
       
+      def order
+        @object.order
+        redirect_to location_after_save
+      end
+      
     end
   end
 end

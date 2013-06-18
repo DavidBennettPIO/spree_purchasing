@@ -4,9 +4,18 @@ Spree::Core::Engine.routes.draw do
     
     resources :suppliers
     
-    resources :purchase_orders
+    resources :purchase_orders do
+      
+      get :order, :on => :member
+      get :receive, :on => :member
+      
+    end
     
-    delete '/purchase_order_lines/:id', :to => "purchase_order_lines#destroy", :as => :purchase_order_line
+    resources :purchase_order_lines do
+      
+      get :receive, :on => :member
+      
+    end
     
   end
 end

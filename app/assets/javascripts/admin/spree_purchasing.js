@@ -56,5 +56,28 @@ $(function() {
 		update_total();
 
 	}
+	
+	// Receive Purchase Order
+	
+	if($('#receive_purchase_order_lines').length > 0)
+	{
+
+		var receive_item = $('#receive_purchase_order_lines a.receive').on('click', function(e){
+			e.preventDefault();
+			var _this = $(this),
+				_quantity_input = _this.parent().find('input.quantity')
+				_quantity = _this.parent().parent().find('td.quantity')
+				_state = _this.parent().parent().find('span.state');
+			$.get(_this.attr('href')+'?quantity='+_quantity_input.val(), function(data){
+				var pol = data.purchase_order_line;
+				_quantity_input.val(pol.quantity - pol.quantity_received);
+				_quantity.text(pol.quantity_received+' / '+pol.quantity);
+				_state.text(pol.state);
+				_state.attr('class', 'state '+pol.state);
+			});
+			
+		});
+
+	}
 
 });

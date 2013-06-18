@@ -13,6 +13,7 @@ en:
   new_purchase_order: "New Purchase Order"
   editing_purchase_order: "Editing Purchase Order"
   back_to_purchase_orders_list: "Back to Purchase Orders List"
+  order_purchase_order: "Order"
   
   tracking_number_short: "Number"
   purchase_order_ordered_on: "Ordered On"
@@ -23,7 +24,8 @@ en:
   
   details: "Details"
   
-  purchase_order_line: "Purchase Order Line"
-  purchase_order_lines: "Purchase Order Lines"
-  new_purchase_order_line: "New Purchase Order Line"
-  remove_purchase_order_line: "Remove Purchase Order Line"
+  purchase_order_line: "Purchase Order Item"
+  purchase_order_lines: "Purchase Order Items"
+  new_purchase_order_line: "New Purchase Order Item"
+  remove_purchase_order_line: "Remove Purchase Order Item"
+  receive_purchase_order_line: "Receive Item"
